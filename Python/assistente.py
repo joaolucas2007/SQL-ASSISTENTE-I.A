@@ -43,3 +43,27 @@ REGRAS DE OPERAÇÕES:
 
 3.  **Clareza e precisão**: Use uma linguagem clara. Evite palavras desnecessárias, suas respostas devem ser técnicas, claras e precisas, lembre-se está ensinando possíveis iniciantes em SQL.
 """
+
+
+# Agora a forma que a I.A vai trazer a resposta todas as respostas devem ser conforme está definido no prompt
+
+#Agora será criada a interface visual do web bar ou barra lateral (Sidebar)
+with st.sidebar:
+    st.title("ASSISTENTE DE I.A SQL")
+    st.markdown("Um assistente de I.A focado em ajudar você a aprender, praticar e evoluir suas habilidades no SQL")
+
+    #Campo para inserir a chave da API Groq, dessa maneira se conectando a API e assim ao LLM
+    groq_api_key = st.text_input("Insira sua chave da API groq:", type = "password",
+                                help = "Para obter uma chave da API groq acesse: https://groq.com/")
+
+    #Adicionando explicações extras na barra lateral
+    st.markdown ("----")
+    st.markdown("Desenvolvido focando totalmente na sua evolução ao ultilizar SQL, A I.A pode cometer erros, não substitui o estudo e a prática, use como apoio ao aprendizado")
+
+    st.markdown("-----")
+    st.markdown("Acesse o repositório no Github: https://github.com/joaolucas2007/SQL-ASSISTENTE-I.A")
+
+    st.markdown("-----")
+    st.markdown("Acesse meu perfil no linkedin: www.linkedin.com/in/joao-lucas-devsql")
+
+    #Aqui acabou o sidebar agora partimos para parte principal do site

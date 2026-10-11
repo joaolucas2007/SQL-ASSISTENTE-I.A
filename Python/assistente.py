@@ -1,5 +1,3 @@
-## Será criada uma interface web ligada a uma API com uma assistente de I.A focado no auxilio ao aprender SQL, mais especificamente T-SQL e no SQL Server
-
 # importando o modulo para interagir com o sistema operacional
 import os
 
@@ -13,7 +11,7 @@ from groq import Groq
 st.set_page_config(
     page_title="Assistente de I.A",
     page_icon="🤖",
-    layout= "Wide",
+    layout= "wide",
     initial_sidebar_state= "expanded"
 )
 
@@ -33,7 +31,7 @@ REGRAS DE OPERAÇÕES:
 2. ** Estrutura das respostas**: Sempre entregue as respostas dessa maneira:
     
     **Explicacção clara:** Entregue uma explicação clara e objetiva em relação a pergunta do usuário, lembre que seu foco é ensinar desde pessoas com conhecimento básico,
-                            pessoas com conhecimento prévios e pessoas que já dominam mas precisam de ajuda somente com sintaxe, entregue respostas com explicações conceituais atualizadas.
+                        pessoas com conhecimento prévios e pessoas que já dominam mas precisam de ajuda somente com sintaxe, entregue respostas com explicações conceituais atualizadas.
     
     **Exemplo de código**: Forneça sempre um exemplo de código funcional e comentada, comentários diretos explicando o que cada linha faz.
 
@@ -67,3 +65,120 @@ with st.sidebar:
     st.markdown("Acesse meu perfil no linkedin: www.linkedin.com/in/joao-lucas-devsql")
 
     #Aqui acabou o sidebar agora partimos para parte principal do site
+
+st.title("Assistente de I.A - Aprendizado em SQL")
+
+#Adicionando um texto auxiliar
+st.caption("Digite sua pergunta ou dúvida para a I.A")
+
+#Criando e iniciando o histórico de perguntas e respostas
+if "messages" not in st.session_state: #armazena dados da sessão do usuário
+   st.session_state.messages = [] #Criando uma lista vazia para armazenar mensagens
+
+    #Mostrando o histórico de perguntas e respostas
+for message in st.session_state.messages: # For percorre a lista criada anteriormente
+       with st.chat_message(message["role"]): #Cria visualmente uma mensagem no chat, acessa o valor do role que está no for,
+                                            #se for user será exibida como mensagem du usuário, se for assistant será exibida como mensagem do assistente          
+    
+        st.markdown(message["content"]) #Cria a mensagem na tela
+
+    # Assim criamos um histórico de perguntas e respostas
+
+
+    #Criando a variavel Client
+client = None #None significa vazio, não tem cliente ainda conectado
+
+    #Criando um if para garantir que a chave API foi inserida corretamente
+
+if groq_api_key:
+        try: # Criando o cliente groq com a chave API fornecida
+            client = Groq(api_key = groq_api_key)
+
+
+        except Exception as e:
+            #Exibindo erro caso não tenha uma chave da API registrada, ou seja invalida
+            st.sidebar.error(f"erro ao inicializar o cliete Groq: {e}")
+            st.stop() # para a execução do código
+
+    #Caso não tenha chave, mas já existam mensagens, mostra o aviso
+elif st.session_state.messages:
+        st.warning("Por favor, insira sua chave da API Groq para continuar a conversa.")
+
+
+        #Caixa de texto do chat na parte principal da página
+# Caixa de texto do chat na parte principal da página
+if prompt := st.chat_input("Qual sua dúvida sobre SQL?"):
+
+        # Se não houver cliente válido, mostra o aviso na tela e para
+        if not client:
+            st.warning("Por favor, insira sua chave da API Groq na barra lateral para continuar.")
+            st.stop()
+
+        # Armazena a mensagem do usuário no estado da sessão
+        st.session_state.messages.append({"role": "user", "content": prompt})
+
+        # Exibindo a mensagem do usuário no chat
+        with st.chat_message("user"):
+            st.markdown(prompt)
+
+        # PREPARANDO A VARIÁVEL AQUI (Logo após a mensagem do usuário)
+        messages_for_api = [{"role": "system", "content": CUSTOM_PROMPT}]
+        for msg in st.session_state.messages:
+            messages_for_api.append(msg)
+
+        # Criando a resposta do assistente no chat
+        with st.chat_message("assistant"):
+            with st.spinner("analisando sua pergunta..."):
+                try:
+                    chat_completion = client.chat.completions.create(
+                        messages=messages_for_api,  # Agora ela existe e será lida corretamente aqui!
+                        model="openai/gpt-oss-230b",
+                        temperature=0.7,
+                        max_tokens=2048,
+                    )
+
+                    ia_resposta = chat_completion.choices[0].message.content
+                    st.markdown(ia_resposta)
+
+                    st.session_state.messages.append({"role": "assistant", "content": ia_resposta})
+
+                except Exception as e:
+                    st.error(f"Ocorreu um erro ao se comunicar com API da Groq: {e}")
+
+
+    # Criando a resposta do assistente no chat
+# Criando a resposta do assistente no chat
+# Criando a resposta do assistente no chat
+with st.chat_message("assistant"):
+        with st.spinner("analisando sua pergunta..."):
+            try:
+                # Verifica se a chave foi inserida antes de chamar a API
+                if not client:
+                    st.warning("Por favor, insira sua chave da API Groq na barra lateral.")
+                    st.stop()
+
+                chat_completion = client.chat.completions.create(
+                    messages=messages_for_api,
+                    model="openai/gpt-oss-120b",
+                    temperature=0.7,
+                    max_tokens=2048,
+                )
+
+                # Extrai a resposta gerada pela I.A
+                ia_resposta = chat_completion.choices[0].message.content
+
+                # Mostrando a resposta na tela
+                st.markdown(ia_resposta)
+
+                # Armazena a resposta do assistente no estado da sessão
+                st.session_state.messages.append({"role": "assistant", "content": ia_resposta})
+
+            except Exception as e:
+                st.error(f"Ocorreu um erro ao se comunicar com API da Groq: {e}")
+
+st.markdown("""
+            <div style="position: fixed; bottom: 0; width: 100%; text-align: center; background-color: #f1f1f1; padding: 10px;">
+                <p style="margin: 0;">Desenvolvido por João Lucas - 2024</p>
+            </div>
+            """, unsafe_allow_html=True
+    )

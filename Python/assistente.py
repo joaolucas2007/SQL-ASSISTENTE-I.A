@@ -1,32 +1,30 @@
-# importando o modulo para interagir com o sistema operacional
-import os
-
-#Importando a biblioteca streamlit biblioteca usada para criar a interface web
+#Inportando o modulo para interagir com sistema operacional
+import os 
+# Importando a biblioteca Streamlit para criar a interface web
 import streamlit as st
 
-#Importando a classe Groq para se conectar a API
+# Importando a classe Groq para conectar à API
 from groq import Groq
 
-#Configurando a pagina com titulo e icone
+
+# Configurando a página
 st.set_page_config(
     page_title="Assistente de I.A",
     page_icon="🤖",
-    layout= "wide",
-    initial_sidebar_state= "expanded"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# O titulo da página com icone já está definido
 
-
-#  agora definindo como o Prompt da i.a será feito
-
-#Aqui criamos uma variavel para armazenar o texto explicando como deve ser a forma de resposta da I.A
+# Definindo o prompt da Inteligência Artificial
 CUSTOM_PROMPT = """
 Você é uma I.A focado no aprendizado de SQL no SQL SERVER, T-SQL, tendo como objetivo maior auxiliar os usuários a entender como funciona um ambiente de dados, 
 não somente gerar as respostas, mas explicar de forma clara e objetivo para conseguir os melhores resultados.
 REGRAS DE OPERAÇÕES:
-1. ** FOCO EM SQL T-SQL **: Responda apenas perguntas focadas em sql  t-sql, desde simples conceitos como: como criar uma tabela, como fazer select, update, a conceitos mais complexo como tce, windows function,
-                            view, procedure, como colocar arquivos csv no SQL Server, como modelar o conceito star schema, entre outros.
+
+1. ** FOCO EM SQL T-SQL **:
+Responda apenas perguntas focadas em sql  t-sql, desde simples conceitos como: como criar uma tabela, como fazer select, update, a conceitos mais complexo como tce, windows function,
+view, procedure, como colocar arquivos csv no SQL Server, como modelar o conceito star schema, entre outros.
 
 2. ** Estrutura das respostas**: Sempre entregue as respostas dessa maneira:
     
@@ -43,120 +41,117 @@ REGRAS DE OPERAÇÕES:
 """
 
 
-# Agora a forma que a I.A vai trazer a resposta todas as respostas devem ser conforme está definido no prompt
-
-#Agora será criada a interface visual do web bar ou barra lateral (Sidebar)
+# Criando a barra lateral
 with st.sidebar:
     st.title("ASSISTENTE DE I.A SQL")
-    st.markdown("Um assistente de I.A focado em ajudar você a aprender, praticar e evoluir suas habilidades no SQL")
 
-    #Campo para inserir a chave da API Groq, dessa maneira se conectando a API e assim ao LLM
-    groq_api_key = st.text_input("Insira sua chave da API groq:", type = "password",
-                                help = "Para obter uma chave da API groq acesse: https://groq.com/")
+    st.markdown(
+        "Um assistente de I.A focado em ajudar você a aprender, "
+        "praticar e evoluir suas habilidades em SQL."
+    )
 
-    #Adicionando explicações extras na barra lateral
-    st.markdown ("----")
-    st.markdown("Desenvolvido focando totalmente na sua evolução ao ultilizar SQL, A I.A pode cometer erros, não substitui o estudo e a prática, use como apoio ao aprendizado")
+    # Campo para inserir a chave da API Groq
+    groq_api_key = st.text_input(
+        "Insira sua chave da API Groq:",
+        type="password",
+        help="Obtenha sua chave em https://console.groq.com/"
+    )
 
-    st.markdown("-----")
-    st.markdown("Acesse o repositório no Github: https://github.com/joaolucas2007/SQL-ASSISTENTE-I.A")
+    st.markdown("---")
 
-    st.markdown("-----")
-    st.markdown("Acesse meu perfil no linkedin: www.linkedin.com/in/joao-lucas-devsql")
+    st.markdown(
+        "Desenvolvido para apoiar sua evolução em SQL. "
+        "A IA pode cometer erros e não substitui o estudo e a prática."
+    )
 
-    #Aqui acabou o sidebar agora partimos para parte principal do site
+    st.markdown("---")
 
+    st.markdown(
+        "Repositório no GitHub: "
+        "https://github.com/joaolucas2007/SQL-ASSISTENTE-I.A"
+    )
+
+    st.markdown("---")
+
+    st.markdown(
+        "LinkedIn: https://www.linkedin.com/in/joao-lucas-devsql"
+    )
+
+
+# Área principal da aplicação
 st.title("Assistente de I.A - Aprendizado em SQL")
 
-#Adicionando um texto auxiliar
-st.caption("Digite sua pergunta ou dúvida para a I.A")
-
-#Criando e iniciando o histórico de perguntas e respostas
-if "messages" not in st.session_state: #armazena dados da sessão do usuário
-   st.session_state.messages = [] #Criando uma lista vazia para armazenar mensagens
-
-    #Mostrando o histórico de perguntas e respostas
-for message in st.session_state.messages: # For percorre a lista criada anteriormente
-       with st.chat_message(message["role"]): #Cria visualmente uma mensagem no chat, acessa o valor do role que está no for,
-                                            #se for user será exibida como mensagem du usuário, se for assistant será exibida como mensagem do assistente          
-    
-        st.markdown(message["content"]) #Cria a mensagem na tela
-
-    # Assim criamos um histórico de perguntas e respostas
+st.caption("Digite sua pergunta ou dúvida sobre SQL Server e T-SQL.")
 
 
-    #Criando a variavel Client
-client = None #None significa vazio, não tem cliente ainda conectado
+# Inicializando o histórico da conversa
+if "messages" not in st.session_state:
+    st.session_state.messages = []
 
-    #Criando um if para garantir que a chave API foi inserida corretamente
+
+# Exibindo o histórico de perguntas e respostas
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
+
+# Inicializando o cliente Groq
+client = None
 
 if groq_api_key:
-        try: # Criando o cliente groq com a chave API fornecida
-            client = Groq(api_key = groq_api_key)
+    try:
+        client = Groq(api_key=groq_api_key)
+
+    except Exception as e:
+        st.sidebar.error(
+            f"Erro ao inicializar o cliente Groq: {e}"
+        )
+        st.stop()
 
 
-        except Exception as e:
-            #Exibindo erro caso não tenha uma chave da API registrada, ou seja invalida
-            st.sidebar.error(f"erro ao inicializar o cliete Groq: {e}")
-            st.stop() # para a execução do código
-
-    #Caso não tenha chave, mas já existam mensagens, mostra o aviso
+# Avisando caso existam mensagens, mas nenhuma chave informada
 elif st.session_state.messages:
-        st.warning("Por favor, insira sua chave da API Groq para continuar a conversa.")
+    st.warning(
+        "Insira sua chave da API Groq para continuar a conversa."
+    )
 
 
-        #Caixa de texto do chat na parte principal da página
-# Caixa de texto do chat na parte principal da página
+# Campo de entrada para as perguntas
 if prompt := st.chat_input("Qual sua dúvida sobre SQL?"):
 
-        # Se não houver cliente válido, mostra o aviso na tela e para
-        if not client:
-            st.warning("Por favor, insira sua chave da API Groq na barra lateral para continuar.")
-            st.stop()
+    # Verificando se o cliente foi inicializado
+    if not client:
+        st.warning(
+            "Insira sua chave da API Groq na barra lateral para continuar."
+        )
+        st.stop()
 
-        # Armazena a mensagem do usuário no estado da sessão
-        st.session_state.messages.append({"role": "user", "content": prompt})
+    # Armazenando a pergunta do usuário no histórico
+    st.session_state.messages.append({
+        "role": "user",
+        "content": prompt
+    })
 
-        # Exibindo a mensagem do usuário no chat
-        with st.chat_message("user"):
-            st.markdown(prompt)
+    # Exibindo a pergunta do usuário
+    with st.chat_message("user"):
+        st.markdown(prompt)
 
-        # PREPARANDO A VARIÁVEL AQUI (Logo após a mensagem do usuário)
-        messages_for_api = [{"role": "system", "content": CUSTOM_PROMPT}]
-        for msg in st.session_state.messages:
-            messages_for_api.append(msg)
+    # Preparando as mensagens para enviar à API
+    messages_for_api = [
+        {
+            "role": "system",
+            "content": CUSTOM_PROMPT
+        }
+    ]
 
-        # Criando a resposta do assistente no chat
-        with st.chat_message("assistant"):
-            with st.spinner("analisando sua pergunta..."):
-                try:
-                    chat_completion = client.chat.completions.create(
-                        messages=messages_for_api,  # Agora ela existe e será lida corretamente aqui!
-                        model="openai/gpt-oss-230b",
-                        temperature=0.7,
-                        max_tokens=2048,
-                    )
+    # Adicionando o histórico da conversa
+    for msg in st.session_state.messages:
+        messages_for_api.append(msg)
 
-                    ia_resposta = chat_completion.choices[0].message.content
-                    st.markdown(ia_resposta)
-
-                    st.session_state.messages.append({"role": "assistant", "content": ia_resposta})
-
-                except Exception as e:
-                    st.error(f"Ocorreu um erro ao se comunicar com API da Groq: {e}")
-
-
-    # Criando a resposta do assistente no chat
-# Criando a resposta do assistente no chat
-# Criando a resposta do assistente no chat
-with st.chat_message("assistant"):
-        with st.spinner("analisando sua pergunta..."):
+    # Gerando e exibindo a resposta da IA
+    with st.chat_message("assistant"):
+        with st.spinner("Analisando sua pergunta..."):
             try:
-                # Verifica se a chave foi inserida antes de chamar a API
-                if not client:
-                    st.warning("Por favor, insira sua chave da API Groq na barra lateral.")
-                    st.stop()
-
                 chat_completion = client.chat.completions.create(
                     messages=messages_for_api,
                     model="openai/gpt-oss-120b",
@@ -164,21 +159,42 @@ with st.chat_message("assistant"):
                     max_tokens=2048,
                 )
 
-                # Extrai a resposta gerada pela I.A
-                ia_resposta = chat_completion.choices[0].message.content
+                # Extraindo o conteúdo da resposta
+                ia_resposta = (
+                    chat_completion.choices[0].message.content
+                )
 
-                # Mostrando a resposta na tela
+                # Exibindo a resposta na interface
                 st.markdown(ia_resposta)
 
-                # Armazena a resposta do assistente no estado da sessão
-                st.session_state.messages.append({"role": "assistant", "content": ia_resposta})
+                # Salvando a resposta no histórico
+                st.session_state.messages.append({
+                    "role": "assistant",
+                    "content": ia_resposta
+                })
 
             except Exception as e:
-                st.error(f"Ocorreu um erro ao se comunicar com API da Groq: {e}")
+                st.error(
+                    f"Ocorreu um erro ao se comunicar com a API da Groq: {e}"
+                )
 
-st.markdown("""
-            <div style="position: fixed; bottom: 0; width: 100%; text-align: center; background-color: #f1f1f1; padding: 10px;">
-                <p style="margin: 0;">Desenvolvido por João Lucas - 2024</p>
-            </div>
-            """, unsafe_allow_html=True
-    )
+
+# Rodapé da aplicação
+st.markdown(
+    """
+    <div style="
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        background-color: #f1f1f1;
+        padding: 10px;
+        color: #333;
+    ">
+        <p style="margin: 0;">
+            Desenvolvido por João Lucas
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)

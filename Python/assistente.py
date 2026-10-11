@@ -9,12 +9,34 @@ from groq import Groq
 
 # Configurando a página
 st.set_page_config(
-    page_title="Assistente de I.A",
-    page_icon="🤖",
+    page_title="SQL Mentor",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
+
+#EDITANDO A APARÊNCIA DO SITE  Com STYLE abrimos uma área css no código
+st.markdown ( """
+            <style>
+    /* Cor de fundo da página */
+    .stApp {
+        background-color: #0f172a;
+        color: #e2e8f0;
+    }
+
+    /* Aparência da barra lateral */
+    [data-testid="stSidebar"] {
+        background-color: #111827;
+        border-right: 1px solid #334155;
+    }
+
+    /* Título principal */
+    h1 {
+        color: #f8fafc;
+        font-weight: 800;
+    }
+        </style>
+""", unsafe_allow_html=True)
 
 # Definindo o prompt da Inteligência Artificial
 CUSTOM_PROMPT = """
@@ -67,15 +89,16 @@ with st.sidebar:
     st.markdown("---")
 
     st.markdown(
-        "Repositório no GitHub: "
-        "https://github.com/joaolucas2007/SQL-ASSISTENTE-I.A"
-    )
+    "[ Acesse meu GitHub](https://github.com/joaolucas2007/SQL-ASSISTENTE-I.A)",
+    unsafe_allow_html=False # permite que o streamlit indetifique hmtl
+)
 
     st.markdown("---")
 
     st.markdown(
-        "LinkedIn: https://www.linkedin.com/in/joao-lucas-devsql"
-    )
+    "[ Conecte-se comigo no LinkedIn](https://www.linkedin.com/in/joao-lucas-devsql)",
+    unsafe_allow_html=False
+)
 
 
 # Área principal da aplicação

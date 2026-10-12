@@ -36,9 +36,10 @@ Estudantes de tecnologia, iniciantes em bancos de dados e pessoas que desejam de
 
 ## Status do projeto
 
-**Em desenvolvimento.**
+**Conclúido.**
 
-Este projeto faz parte da minha jornada de aprendizado em Python, Inteligência Artificial e bancos de dados relacionais.
+Este projeto faz parte da minha jornada de aprendizado em Python.
+- site: [site mentor sql](https://mentor-sql.streamlit.app/)
 
 ## Autor
 

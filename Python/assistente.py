@@ -215,3 +215,21 @@ if prompt := st.chat_input("Qual sua dúvida sobre SQL?"):
                 st.error(
                     f"Ocorreu um erro ao se comunicar com a API da Groq: {e}"
                 )
+
+#Criando rodapé com nome de quem desenvolveu
+st.markdown(
+    """
+    <div style="
+        text-align: center;
+        padding: 20px;
+        color: #94a3b8;
+        font-size: 14px;
+        border-top: 1px solid #334155;
+        margin-top: 30px;
+    ">
+        SQL Mentor<br>
+        Desenvolvido por João Lucas Freire da Silva
+    </div>
+    """,
+    unsafe_allow_html=True
+)

@@ -78,12 +78,8 @@ with st.sidebar:
         "praticar e evoluir suas habilidades em SQL."
     )
 
-    # Campo para inserir a chave da API Groq
-    groq_api_key = st.text_input(
-        "Insira sua chave da API Groq:",
-        type="password",
-        help="Obtenha sua chave em https://console.groq.com/"
-    )
+    # a chave para conectar com a API será feita no site Streamlit
+    st.caption("Conexão com a inteligência artificial ativa.")
 
     st.markdown("---")
 
@@ -133,36 +129,24 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 
-# Inicializando o cliente Groq
-client = None
+# # Inicializando o cliente Groq com a chave protegida
+try:
+    groq_api_key = st.secrets["GROQ_API_KEY"]
+    client = Groq(api_key=groq_api_key)
 
-if groq_api_key:
-    try:
-        client = Groq(api_key=groq_api_key)
-
-    except Exception as e:
-        st.sidebar.error(
-            f"Erro ao inicializar o cliente Groq: {e}"
-        )
-        st.stop()
-
-
-# Avisando caso existam mensagens, mas nenhuma chave informada
-elif st.session_state.messages:
-    st.warning(
-        "Insira sua chave da API Groq para continuar a conversa."
+except KeyError:
+    st.error(
+        "A chave da API não foi configurada. "
+        "Verifique os Secrets do Streamlit."
     )
+    st.stop()
 
+except Exception:
+    st.error("Não foi possível inicializar a conexão com a IA.")
+    st.stop()
 
 # Campo de entrada para as perguntas
 if prompt := st.chat_input("Qual sua dúvida sobre SQL?"):
-
-    # Verificando se o cliente foi inicializado
-    if not client:
-        st.warning(
-            "Insira sua chave da API Groq na barra lateral para continuar."
-        )
-        st.stop()
 
     # Armazenando a pergunta do usuário no histórico
     st.session_state.messages.append({

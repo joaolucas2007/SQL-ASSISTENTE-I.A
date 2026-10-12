@@ -49,17 +49,23 @@ Responda apenas perguntas focadas em sql  t-sql, desde simples conceitos como: c
 view, procedure, como colocar arquivos csv no SQL Server, como modelar o conceito star schema, entre outros.
 
 2. ** Estrutura das respostas**: Sempre entregue as respostas dessa maneira:
-    
-    **Explicacção clara:** Entregue uma explicação clara e objetiva em relação a pergunta do usuário, lembre que seu foco é ensinar desde pessoas com conhecimento básico,
-                        pessoas com conhecimento prévios e pessoas que já dominam mas precisam de ajuda somente com sintaxe, entregue respostas com explicações conceituais atualizadas.
+
+    **Explicacção clara:** Entregue uma explicação clara e objetiva em relação a pergunta do usuário, 
+     lembre que seu foco é ensinar desde pessoas com conhecimento básico,
+     pessoas com conhecimento prévios e pessoas que já dominam mas precisam 
+     de ajuda somente com sintaxe, entregue respostas com explicações conceituais atualizadas.
     
     **Exemplo de código**: Forneça sempre um exemplo de código funcional e comentada, comentários diretos explicando o que cada linha faz.
 
-    **Detalhes do código**: Após o bloco de código, escreva detalhadamente o que cada parte do código está fazendo, explicando os códigos e funções detalhadamente de forma clara e precisa
+    **Detalhes do código**: Após o bloco de código, escreva detalhadamente o que cada parte do código está fazendo, 
+    explicando os códigos e funções detalhadamente de forma clara e precisa
 
-    **Documentação e referência:** Ao final, inclua uma seção chamada "Documentação de referência", com links das fontes ultilizadas para gerar as respostas, ultilize sempre links oficiais, com qualidade garantida, sobre sql, para que o usuário possa aprofundar seu conhecimento.
+    **Documentação e referência:** Ao final, inclua uma seção chamada "Documentação de referência", 
+    com links das fontes ultilizadas para gerar as respostas, ultilize sempre links oficiais, 
+    com qualidade garantida, sobre sql, para que o usuário possa aprofundar seu conhecimento.
 
-3.  **Clareza e precisão**: Use uma linguagem clara. Evite palavras desnecessárias, suas respostas devem ser técnicas, claras e precisas, lembre-se está ensinando possíveis iniciantes em SQL.
+3.  **Clareza e precisão**: Use uma linguagem clara. Evite palavras desnecessárias, suas respostas devem ser técnicas, 
+    claras e precisas, lembre-se está ensinando possíveis iniciantes em SQL.
 """
 
 
@@ -88,17 +94,26 @@ with st.sidebar:
 
     st.markdown("---")
 
-    st.markdown(
-    "[ Acesse meu GitHub](https://github.com/joaolucas2007/SQL-ASSISTENTE-I.A)",
-    unsafe_allow_html=False # permite que o streamlit indetifique hmtl
-)
 
-    st.markdown("---")
+    # Link para o GitHub
+    st.markdown("""
+    <a href="https://github.com/joaolucas2007/SQL-ASSISTENTE-I.A"
+       target="_blank"
+       style="color: #cbd5e1; text-decoration: none; font-size: 15px;">
+        &nbsp; Meu GitHub ↗
+    </a>
+    """, unsafe_allow_html=True)
 
-    st.markdown(
-    "[ Conecte-se comigo no LinkedIn](https://www.linkedin.com/in/joao-lucas-devsql)",
-    unsafe_allow_html=False
-)
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # Link para o LinkedIn
+    st.markdown("""
+    <a href="https://www.linkedin.com/in/joao-lucas-devsql"
+       target="_blank"
+       style="color: #cbd5e1; text-decoration: none; font-size: 15px;">
+        &nbsp; Meu LinkedIn ↗
+    </a>
+    """, unsafe_allow_html=True)
 
 
 # Área principal da aplicação
@@ -200,24 +215,3 @@ if prompt := st.chat_input("Qual sua dúvida sobre SQL?"):
                 st.error(
                     f"Ocorreu um erro ao se comunicar com a API da Groq: {e}"
                 )
-
-
-# Rodapé da aplicação
-st.markdown(
-    """
-    <div style="
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        text-align: center;
-        background-color: #f1f1f1;
-        padding: 10px;
-        color: #333;
-    ">
-        <p style="margin: 0;">
-            Desenvolvido por João Lucas
-        </p>
-    </div>
-    """,
-    unsafe_allow_html=True
-)

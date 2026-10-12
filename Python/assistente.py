@@ -67,11 +67,11 @@ view, procedure, como colocar arquivos csv no SQL Server, como modelar o conceit
 3.  **Clareza e precisão**: Use uma linguagem clara. Evite palavras desnecessárias, suas respostas devem ser técnicas, 
     claras e precisas, lembre-se está ensinando possíveis iniciantes em SQL.
 """
-
+# Ai I.A sempre entrega as respostas como está escrito nesse prompt, esse prompt formata como deve ser toda resposta dela
 
 # Criando a barra lateral
 with st.sidebar:
-    st.title("ASSISTENTE DE I.A SQL")
+    st.title("ASSISTENTE DE I.A SQL") #Titulo do sidebar 
 
     st.markdown(
         "Um assistente de I.A focado em ajudar você a aprender, "
@@ -98,7 +98,7 @@ with st.sidebar:
        style="color: #cbd5e1; text-decoration: none; font-size: 15px;">
         &nbsp; Meu GitHub ↗
     </a>
-    """, unsafe_allow_html=True)
+    """, unsafe_allow_html=True) # Permite fazer alterações como se fosse html
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -113,36 +113,36 @@ with st.sidebar:
 
 
 # Área principal da aplicação
-st.title("Assistente de I.A - Aprendizado em SQL")
+st.title("Assistente de I.A - Aprendizado em SQL")  # Titulo para área principal 
 
 st.caption("Digite sua pergunta ou dúvida sobre SQL Server e T-SQL.")
 
 
 # Inicializando o histórico da conversa
 if "messages" not in st.session_state:
-    st.session_state.messages = []
+    st.session_state.messages = []                  # Criando uma lista para receber as mensagens do cliente e as respostad da I.A
 
 
 # Exibindo o histórico de perguntas e respostas
 for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+    with st.chat_message(message["role"]):  # Cria um ambiente visual para como uma conversa entre usuário e a I.A
+        st.markdown(message["content"]) # Exibindo o conteúdo da mensagem na interface
 
 
 # # Inicializando o cliente Groq com a chave protegida
 try:
-    groq_api_key = st.secrets["GROQ_API_KEY"]
-    client = Groq(api_key=groq_api_key)
+    groq_api_key = st.secrets["GROQ_API_KEY"]               # Chama a chave da API configurada no streamlit s.secrets acessa as configurações do streamlit
+    client = Groq(api_key=groq_api_key)     # Cria o cliente Groq a partir da chave da API
 
 except KeyError:
     st.error(
-        "A chave da API não foi configurada. "
-        "Verifique os Secrets do Streamlit."
+        "A chave da API não foi configurada. "              #Caso a chave da API perder a funcionalidade 
+        "Será nescessário verificar o Streamlit."
     )
     st.stop()
 
 except Exception:
-    st.error("Não foi possível inicializar a conexão com a IA.")
+    st.error("Não foi possível inicializar a conexão com a IA.")   #Erro axebido na tela
     st.stop()
 
 # Campo de entrada para as perguntas
@@ -162,7 +162,7 @@ if prompt := st.chat_input("Qual sua dúvida sobre SQL?"):
     messages_for_api = [
         {
             "role": "system",
-            "content": CUSTOM_PROMPT
+            "content": CUSTOM_PROMPT   #Define as regras para a resposta da I.A
         }
     ]
 
@@ -172,13 +172,13 @@ if prompt := st.chat_input("Qual sua dúvida sobre SQL?"):
 
     # Gerando e exibindo a resposta da IA
     with st.chat_message("assistant"):
-        with st.spinner("Analisando sua pergunta..."):
+        with st.spinner("Analisando sua pergunta..."):      #Mensagem mostrada na tela enquanto o usuário espera a resposta
             try:
-                chat_completion = client.chat.completions.create(
-                    messages=messages_for_api,
-                    model="openai/gpt-oss-120b",
-                    temperature=0.7,
-                    max_tokens=2048,
+                chat_completion = client.chat.completions.create(   # Envia as perguntas do usuário e espera uma resposta
+                    messages=messages_for_api,      # é a instruções para I.A e histórico de perguntas e respostas
+                    model="openai/gpt-oss-120b",    #Modelo de I.A ultilziado no sistema
+                    temperature=0.7,  #Controla a variedade de possiveis respostas
+                    max_tokens=2048,    #Define a quantidade máxima de tokens, ou respostas
                 )
 
                 # Extraindo o conteúdo da resposta
@@ -197,10 +197,10 @@ if prompt := st.chat_input("Qual sua dúvida sobre SQL?"):
 
             except Exception as e:
                 st.error(
-                    f"Ocorreu um erro ao se comunicar com a API da Groq: {e}"
+                    f"Ocorreu um erro ao se comunicar com a API da Groq: {e}"   # Caso ocorra um erro com API mostra essa mensagem ao usuário
                 )
 
-#Criando rodapé com nome de quem desenvolveu
+#Criando rodapé 
 st.markdown(
     """
     <style>

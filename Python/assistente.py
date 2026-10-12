@@ -1,4 +1,4 @@
-#Inportando o modulo para interagir com sistema operacional
+#Importando o modulo para interagir com sistema operacional
 import os 
 # Importando a biblioteca Streamlit para criar a interface web
 import streamlit as st

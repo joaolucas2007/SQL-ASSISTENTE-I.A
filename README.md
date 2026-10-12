@@ -10,7 +10,7 @@ A proposta é desenvolver uma aplicação web interativa capaz de explicar conce
 
 - Desenvolver uma aplicação web interativa.
 - Auxiliar no aprendizado de SQL e SQL Server.
-- Ajudar desde iniciantes até estudantes que enfrentam problemas mais complexos utilizando T-SQL.
+- Ajudar desde iniciantes até quem já pratica algum tempo e enfrenta problemas complexos utilizando T-SQL.
 
 ## Tecnologias e ferramentas previstas
 

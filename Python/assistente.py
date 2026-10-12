@@ -85,8 +85,9 @@ with st.sidebar:
 
     st.markdown(
         "Desenvolvido para apoiar sua evolução em SQL. "
-        "A IA pode cometer erros e não substitui o estudo e a prática."
     )
+
+    st.markdown( "⚠️ A IA pode cometer erros e não substitui o estudo e a prática.")
 
     st.markdown("---")
 

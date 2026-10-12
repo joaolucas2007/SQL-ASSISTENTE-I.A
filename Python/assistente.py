@@ -219,16 +219,29 @@ if prompt := st.chat_input("Qual sua dúvida sobre SQL?"):
 #Criando rodapé com nome de quem desenvolveu
 st.markdown(
     """
-    <div style="
+    <style>
+    .footer-autor {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
         text-align: center;
-        padding: 20px;
-        color: #94a3b8;
-        font-size: 14px;
+        background-color: #0f172a;
+        color: #cbd5e1;
+        padding: 8px 10px;
+        font-size: 13px;
         border-top: 1px solid #334155;
-        margin-top: 30px;
-    ">
-        SQL Mentor<br>
-        Desenvolvido por João Lucas Freire da Silva
+        z-index: 999;
+    }
+
+    /* Reserva espaço para o rodapé */
+    .stMainBlockContainer {
+        padding-bottom: 55px;
+    }
+    </style>
+
+    <div class="footer-autor">
+        SQL Mentor | Desenvolvido por João Lucas Freire da Silva
     </div>
     """,
     unsafe_allow_html=True

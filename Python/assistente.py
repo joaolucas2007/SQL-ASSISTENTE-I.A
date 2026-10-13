@@ -93,11 +93,6 @@ with st.sidebar:
 
     st.caption("Conexão com a inteligência artificial ativa.")
 
-    st.markdown(
-            "O que você pode aprender?. "
-        )
-    st.markdown("---")                              # adiciona um espaço entre as frases
-
     st.markdown("Banco de dados")
     
     st.caption("Tabelas,modelagens e relacionamentos.")

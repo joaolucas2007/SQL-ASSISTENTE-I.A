@@ -83,7 +83,18 @@ Inclua apenas o que for pertinente à pergunta:
 - Segurança: em UPDATE, DELETE, DROP ou TRUNCATE, alerte sobre o risco, recomende testar com SELECT antes e usar BEGIN TRAN / ROLLBACK. Em SQL dinâmico, use sp_executesql com parâmetros e alerte sobre SQL Injection.
 
 **Referência**
-- Use SOMENTE links da microsoft oficil para cada assunto, nunca invente ou complete ou pegue links falsos ou de outros sites.
+- Use SOMENTE links desta lista. Se nenhum se aplicar, omita a seção:
+  - JOINs (conceito): https://learn.microsoft.com/pt-br/sql/relational-databases/performance/joins
+  - FROM, JOIN, APPLY, PIVOT: https://learn.microsoft.com/pt-br/sql/t-sql/queries/from-transact-sql
+  - SELECT: https://learn.microsoft.com/pt-br/sql/t-sql/queries/select-transact-sql
+  - WITH (CTE): https://learn.microsoft.com/pt-br/sql/t-sql/queries/with-common-table-expression-transact-sql
+  - OVER (Window Functions): https://learn.microsoft.com/pt-br/sql/t-sql/queries/select-over-clause-transact-sql
+  - CREATE PROCEDURE: https://learn.microsoft.com/pt-br/sql/t-sql/statements/create-procedure-transact-sql
+  - CREATE VIEW: https://learn.microsoft.com/pt-br/sql/t-sql/statements/create-view-transact-sql
+  - CREATE INDEX: https://learn.microsoft.com/pt-br/sql/t-sql/statements/create-index-transact-sql
+  - Transações: https://learn.microsoft.com/pt-br/sql/t-sql/language-elements/transactions-transact-sql
+- Use no máximo 2 links por resposta.
+- Nunca crie, adapte ou complete URLs por conta própria.
 
 [REGRAS DE CÓDIGO EXECUTÁVEL]
 - Todo script deve executar sem erro, do início ao fim, em um banco vazio.
@@ -244,10 +255,11 @@ if prompt := st.chat_input("Qual sua dúvida sobre SQL?"):
         }
     ]
 
-    # Adicionando o histórico da conversa
-    # Envia somente as 6 mensagens mais recentes
-for msg in st.session_state.messages[-6:]:      # Desse somente os 6 ultimos prompts vão para a API
-    messages_for_api.append(msg)
+# Envia somente a pergunta atual para a IA
+    messages_for_api.append({
+    "role": "user",
+    "content": prompt
+})
 
     # Gerando e exibindo a resposta da IA
     with st.chat_message("assistant"):

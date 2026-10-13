@@ -93,6 +93,10 @@ with st.sidebar:
 
     st.caption("Conexão com a inteligência artificial ativa.")
 
+    st.title(
+            "O que você pode aprender?"
+        )
+
     st.markdown("Banco de dados")
     
     st.caption("Tabelas,modelagens e relacionamentos.")
@@ -109,7 +113,9 @@ with st.sidebar:
     
     st.caption("Entenda a lógica por trás do código.")
 
+    st.markdown("---")
 
+    st.caption("⚠️ A I.A pode cometer erros, sempre teste o código.")
     
 
 

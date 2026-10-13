@@ -245,8 +245,9 @@ if prompt := st.chat_input("Qual sua dúvida sobre SQL?"):
     ]
 
     # Adicionando o histórico da conversa
-    for msg in st.session_state.messages:
-        messages_for_api.append(msg)
+    # Envia somente as 6 mensagens mais recentes
+for msg in st.session_state.messages[-6:]:      # Desse somente os 6 ultimos prompts vão para a API
+    messages_for_api.append(msg)
 
     # Gerando e exibindo a resposta da IA
     with st.chat_message("assistant"):

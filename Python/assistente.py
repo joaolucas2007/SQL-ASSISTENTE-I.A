@@ -87,8 +87,8 @@ with st.sidebar:
 """, unsafe_allow_html=True)                        #Titulo do sidebar e icone de banco de dados
 
     st.markdown(
-        "Um assistente de I.A focado em ajudar você a aprender"
-        "praticar e evoluir suas habilidades em SQL."
+        "Seu assistente de IA para aprender SQL Server e T-SQL, " \
+        "praticar consultas e entender a lógica por trás do código."
     )
 
     st.caption("Conexão com a inteligência artificial ativa.")

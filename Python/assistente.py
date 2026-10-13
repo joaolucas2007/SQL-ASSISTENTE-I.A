@@ -115,7 +115,7 @@ with st.sidebar:
 
     st.markdown("---")
 
-    st.caption("⚠️ A I.A pode cometer erros, sempre teste o código.")
+    st.caption("⚠️ I.A cometer erros, sempre teste o código.")
     
 
 

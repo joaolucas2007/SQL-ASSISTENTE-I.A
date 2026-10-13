@@ -254,7 +254,7 @@ if prompt := st.chat_input("Qual sua dúvida sobre SQL?"):
             try:
                 chat_completion = client.chat.completions.create(   # Envia as perguntas do usuário e espera uma resposta
                     messages=messages_for_api,      # é a instruções para I.A e histórico de perguntas e respostas
-                    model="openai/gpt-oss-120b",    #Modelo de I.A ultilziado no sistema
+                    model="qwen/qwen3.8-27b",    #Modelo de I.A ultilziado no sistema
                     temperature=0.7,  #Controla a variedade de possiveis respostas
                     max_tokens=2048,    #Define a quantidade máxima de tokens, ou respostas
                 )

@@ -71,11 +71,11 @@ view, procedure, como colocar arquivos csv no SQL Server, como modelar o conceit
 
 # Criando a barra lateral
 with st.sidebar:
-    st.markdown("""
+    st.markdown("""                                             
 <div style="display:flex; align-items:center; gap:10px;">
     <svg width="30" height="30" viewBox="0 0 24 24"
          fill="none" stroke="#60a5fa" stroke-width="1.8"
-         stroke-linecap="round" stroke-linejoin="round">
+         stroke-linecap="round" stroke-linejoin="round">                          
         <ellipse cx="12" cy="5" rx="8" ry="3"/>
         <path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/>
         <path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>
@@ -84,25 +84,39 @@ with st.sidebar:
         SQL Mentor
     </span>
 </div>
-""", unsafe_allow_html=True)                        #Titulo do sidebar 
+""", unsafe_allow_html=True)                        #Titulo do sidebar e icone de banco de dados
 
     st.markdown(
-        "Um assistente de I.A focado em ajudar você a aprender, "
+        "Um assistente de I.A focado em ajudar você a aprender"
         "praticar e evoluir suas habilidades em SQL."
     )
 
-    # a chave para conectar com a API será feita no site Streamlit
     st.caption("Conexão com a inteligência artificial ativa.")
 
-    st.markdown("---")
-
     st.markdown(
-        "Desenvolvido para apoiar sua evolução em SQL. "
-    )
+            "O que você pode aprender?. "
+        )
+    st.markdown("---")                              # adiciona um espaço entre as frases
 
-    st.markdown( "⚠️ A IA pode cometer erros e não substitui o estudo e a prática.")
+    st.markdown("Banco de dados")
+    
+    st.caption("Tabelas,modelagens e relacionamentos.")
 
     st.markdown("---")
+
+    st.markdown( "Consultas SQL")
+
+    st.caption("Select, joins, CTE etc.")
+
+    st.markdown("---")
+
+    st.markdown( "Aprendizado guiado")
+    
+    st.caption("Entenda a lógica por trás do código.")
+
+
+    
+
 
 
     # Link para o GitHub
